@@ -1,0 +1,20 @@
+[
+    {
+        "id": 2,
+        "tittle": "Refactor auth module",
+        "description": "Refactor the user authentication module to improve performance.",
+        "status": "In progress"
+    },
+    {
+        "id": 3,
+        "tittle": "Project file backup",
+        "description": "Backup all important project files to external hard drive.",
+        "status": "Completed"
+    },
+    {
+        "id": 4,
+        "tittle": "Weekly grocery shopping",
+        "description": "Buy groceries for the week: milk, eggs, rice, and vegetables.",
+        "status": "Pending"
+    }
+]
