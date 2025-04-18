@@ -1,6 +1,6 @@
 import json
 
-class db():
+class DB():
     def __init__(self, path):
         self.data = []
         self.path = path
@@ -27,7 +27,7 @@ class db():
         else:
             return 1
 
-class task():
+class Task():
     def __init__(self, id, tittle, description, status):
         self.id = id
         self.tittle = tittle
