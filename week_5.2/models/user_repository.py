@@ -6,7 +6,7 @@ class UserRepository(RepositoryManager):
         super().__init__(db_manager)
         self._create_users_table()
         self.valid_columns = ['id', 'name', 'email', 'user_name', 'password', 'birth_date', 'account_status']
-
+        self.valid_account_status = ['active', 'inactive', 'suspended', 'pending', 'deleted', 'banned', 'locked', 'verified', 'unverified', 'archived']
         self.table_name = 'users'
 
     def add_entry(self, *args):

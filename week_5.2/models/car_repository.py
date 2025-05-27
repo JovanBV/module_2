@@ -6,6 +6,8 @@ class CarRepository(RepositoryManager):
         self.valid_columns = ['id', 'make', 'model', 'year', 'condition']
         self.table_name = "cars"
         self._create_cars_table()
+        self.valid_car_condition = ['new', 'excellent', 'good', 'fair', 'poor', 'damaged', 'totaled', 'under_inspection', 'needs_repair']
+
 
     def _create_cars_table(self):
         try:

@@ -2,9 +2,7 @@ from abc import ABC, abstractmethod
 
 class RepositoryManager(ABC):
     def __init__(self, db_manager):
-        print("inicializando repo manager")
-        self.valid_car_condition = ['new', 'excellent', 'good', 'fair', 'poor', 'damaged', 'totaled', 'under_inspection', 'needs_repair']
-        self.valid_account_status = ['active', 'inactive', 'suspended', 'pending', 'deleted', 'banned', 'locked', 'verified', 'unverified', 'archived']
+        print("initializing repo manager")
         self.db_manager = db_manager
 
     def empty_table(self):
