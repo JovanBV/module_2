@@ -8,7 +8,6 @@ class CarRepository(RepositoryManager):
         self._create_cars_table()
         self.valid_car_condition = ['new', 'excellent', 'good', 'fair', 'poor', 'damaged', 'totaled', 'under_inspection', 'needs_repair']
 
-
     def _create_cars_table(self):
         try:
             query = """
