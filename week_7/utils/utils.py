@@ -35,7 +35,7 @@ def get_user_id(token):
 def access_with_roles(*allowed_roles):
     def decorator(func):
         @functools.wraps(func)
-        def wrapper(*args, **kwargs):  # agregá kwargs por si el endpoint los necesita
+        def wrapper(*args, **kwargs):
             token = request.headers.get('Authorization')
 
             if not token:
