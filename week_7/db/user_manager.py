@@ -37,7 +37,7 @@ order_table = Table("orders", metadata,
 
 class db_manager:
     def __init__(self):
-        self.engine = create_engine('postgresql+psycopg2://postgres:jovan@localhost:5432/postgres')
+        self.engine = create_engine('postgresql+psycopg2://postgres:Jgjg2009!@127.0.0.1:5432/postgres')
         metadata.create_all(self.engine)
 
     def insert_user(self, username, password, role):
