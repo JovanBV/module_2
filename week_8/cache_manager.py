@@ -85,7 +85,7 @@ class CacheManager:
 
 
 cache_manager = CacheManager(
-    "redis-13476.c266.us-east-1-3.ec2.redns.redis-cloud.com",
-    13476,
-    "3GbwCdhSMzHbKLvaMc3g7nxkg4Qfsugq"
+    "Placeholder",
+    11111,
+    "Placeholder"
     )
