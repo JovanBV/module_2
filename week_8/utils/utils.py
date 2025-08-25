@@ -75,18 +75,21 @@ def get_fruit_from_db_or_cache(id):
     return jsonify(error="No fruits to retrieve.")
 
 
-def get_all_fruits_from_db_or_cache(key):
-    data = cache_manager.get_all_similar_keys(key)
+def get_all_fruits_from_db_or_cache():
+    cache_key = "fruits:all"
+
+    data = cache_manager.get_json(cache_key)
     if data:
         print("From Redis")
         return data
-    
+
     data = db.get_fruits()
     if data:
-        print("from DB")
+        print("From DB")
+        cache_manager.set_json(cache_key, data, time_to_live=300)
         return data
 
-    return None
+    return []
 
 def post_fruit(data):
     name = data.get("name")

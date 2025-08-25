@@ -36,7 +36,7 @@ def me():
         return jsonify(data)
 
     user_data = delete_keys(decoded, "password")
-    cache_manager.store_hash(clean_token, user_data["data"])
+    cache_manager.store_hash(clean_token, user_data["data"], time_to_live=300)
 
     return jsonify(user_data["data"])
 
@@ -57,38 +57,37 @@ def login():
     token = jwt_manager.encode(user)
     return jsonify(token=token)
 
+@app.route("/fruits/<int:id>", methods=["GET"])
+@access_with_roles("Admin")
+def get_fruit(id):
+    cache_key = f"fruits:{id}"
+
+    fruit = cache_manager.get_json(cache_key)
+    if fruit:
+        return jsonify(fruit), 200
+
+    fruit = db.get_fruit_by_id(id)
+    if not fruit:
+        return jsonify({"error": "Fruit not found"}), 404
+
+    cache_manager.set_json(cache_key, fruit, time_to_live=300)
+    return jsonify(fruit), 200
 
 @app.route("/fruits", methods=["GET"])
 @access_with_roles("Admin")
 def get_all():
-    data = get_all_fruits_from_db_or_cache("fruits")
+    data = get_all_fruits_from_db_or_cache()
     return jsonify(data)
-
-
-@app.route("/fruits/<int:id>", methods=["GET"])
-@access_with_roles("Admin")
-def get_fruit(id):
-    data = get_fruit_from_db_or_cache(id)
-    return data
-
-
-@app.route("/fruits", methods=["POST"])
-@access_with_roles("Admin")
-def create():
-    new_fruit = request.get_json()
-
-    posted_fruit = post_fruit(new_fruit)
-    return jsonify(posted_fruit)
 
 
 @app.route("/fruits/<int:id>", methods=["PATCH"])
 @access_with_roles("Admin")
 def update(id):
     cache_manager.delete_key(id)
-
+    cache_manager.delete_key("fruits:all")
+    
     data = request.get_json()
     new_amount = data.get("amount")
-
     updated_fruit = db.update_fruit(id, new_amount)
 
     if not updated_fruit:
@@ -96,17 +95,28 @@ def update(id):
     return jsonify(updated_fruit)    
 
 
+@app.route("/fruits", methods=["POST"])
+@access_with_roles("Admin")
+def create():
+    new_fruit = request.get_json()
+    cache_manager.delete_key("fruits:all")
+
+    posted_fruit = post_fruit(new_fruit)
+    return jsonify(posted_fruit)
+
+
 @app.route("/fruits/<int:id>", methods=["DELETE"])
 @access_with_roles("Admin")
 def delete(id):
-
     cache_manager.delete_fruit(id)
+    cache_manager.delete_key("fruits:all")
+
     deleted_fruit = db.delete_fruit(id)
-    
     if not deleted_fruit:
         return jsonify(error="fruit not found."), 404
     
     return jsonify(deleted_fruit)
+
 
 @app.route("/order/add", methods=["POST"])
 @access_with_roles("Admin", "User")
